@@ -2,17 +2,20 @@ import Head from 'next/head'
 import {useState} from 'react';
 import {PGChuck} from "@/types";
 import endent from "endent";
+import {Answer} from '@/components/Answer/Answer';
+import {IconExternalLink} from '@tabler/icons-react';
+import moment from 'moment';
 
 export default function Home() {
     const [query, setQuery] = useState('');
     const [answer, setAnswer] = useState('');
-    const [chunks, setChunks] = useState < PGChuck[]> ([]);
+    const [chunks, setChunks] = useState<PGChuck[]>([]);
     const [loading, setLoading] = useState(false);
 
     const handleInput = async (event: any) => {
         event.preventDefault();
 
-        if (! query) {
+        if (!query) {
             alert('Please enter a query');
 
             return;
@@ -20,6 +23,8 @@ export default function Home() {
 
         setLoading(true);
         setAnswer('');
+        setChunks([]);
+
         const searchResponse = await fetch('/api/search', {
             method: 'POST',
             headers: {
@@ -51,7 +56,7 @@ export default function Home() {
             body: JSON.stringify({prompt})
         });
 
-        if (! answerResponse.ok) {
+        if (!answerResponse.ok) {
             setLoading(false);
 
             return;
@@ -59,7 +64,7 @@ export default function Home() {
 
         const data = answerResponse.body;
 
-        if (! data) {
+        if (!data) {
             setLoading(false);
 
             return;
@@ -69,7 +74,7 @@ export default function Home() {
         const decoder = new TextDecoder();
         let done = false;
 
-        while (! done) {
+        while (!done) {
             const {value, done: doneReading} = await reader.read();
             const chunkValue = decoder.decode(value);
 
@@ -107,10 +112,54 @@ export default function Home() {
                 </form>
 
                 <div className="mt-4">
-                    {
-                        loading
-                            ? <div>Loading...</div>
-                            : <div>{answer}</div>
+                    {loading
+                        ? (
+                            <div className="mt-6 w-full">
+                                <div className="font-bold text-2xl mt-6">Passages</div>
+                                <div className="animate-pulse mt-2">
+                                    <div className="h-4 bg-gray-300 rounded"></div>
+                                    <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                                    <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                                    <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                                    <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                                </div>
+                            </div>
+                        )
+                        : answer ? (
+                            <div className="mt-6">
+                                <div className="font-bold text-2xl mb-2">Answer</div>
+                                <Answer text={answer}/>
+
+                                <div className="mt-6 mb-16">
+                                    <div className="font-bold text-2xl">Passages</div>
+
+                                    {chunks.map((chunk, index) => (
+                                        <div key={index}>
+                                            <div className="mt-4 border border-zinc-600 rounded-lg p-4">
+                                                <div className="flex justify-between">
+                                                    <div>
+                                                        <div className="font-bold text-xl">{chunk.article_title}</div>
+                                                        <div
+                                                            className="mt-1 font-bold text-sm">{moment(chunk.article_date).format('LLL')}</div>
+                                                    </div>
+                                                    <a
+                                                        className="hover:opacity-50 ml-2"
+                                                        href={chunk.article_url}
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                    >
+                                                        <IconExternalLink/>
+                                                    </a>
+                                                </div>
+                                                <div className="mt-2">{chunk.content}</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="mt-6 text-center text-lg">{`AI-powered search.`}</div>
+                        )
                     }
                 </div>
             </div>
