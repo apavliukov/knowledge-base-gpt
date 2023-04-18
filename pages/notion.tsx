@@ -7,7 +7,7 @@ import UploadZip from "@/components/Forms/UploadZip";
 import {IconExternalLink} from "@tabler/icons-react";
 
 export default function Home() {
-    const [query, setQuery] = useState('');
+    const [query, setQuery] = useState('What fields are hard-coded?');
     const [answer, setAnswer] = useState('');
     const [documents, setDocuments] = useState<Document[]>([]);
     const [loading, setLoading] = useState(false);

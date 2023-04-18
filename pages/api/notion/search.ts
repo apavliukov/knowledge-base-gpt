@@ -36,8 +36,6 @@ const handler = async (request: Request): Promise<Response> => {
 
         const result = await chain.call({ question: query, chat_history: [] });
 
-        console.log(result);
-
         return new Response(JSON.stringify(result), {status: 200});
     } catch (exception) {
         console.error(exception);

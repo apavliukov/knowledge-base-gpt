@@ -1,10 +1,4 @@
-import {createClient} from "@supabase/supabase-js";
 import {ParsedEvent, ReconnectInterval, createParser} from "eventsource-parser";
-
-export const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 export const OpenAiStream = async (prompt: string) => {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
