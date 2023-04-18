@@ -10,8 +10,6 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as os from 'os';
 
-const NOTION_PUBLIC_PATH = 'storage/notion';
-
 export const config = {
     api: {
         bodyParser: false, // disable built-in parser
@@ -29,7 +27,12 @@ export default async function handler(
 
     try {
         const documentsRelativePath = await getExtractedDirectoryPath(request);
+
+        console.log('documentsRelativePath', documentsRelativePath);
+
         const documentsFullPath: string = path.join(process.cwd(), documentsRelativePath);
+
+        console.log('documentsFullPath', documentsFullPath);
 
         await uploadDocumentsToSupabase(documentsFullPath);
 
@@ -68,16 +71,15 @@ const uploadDocumentsToSupabase = async (documentsPath: string) => {
 };
 
 const getExtractedDirectoryPath = async (request: NextApiRequest) => {
-    const { filepath, newFilename } = await getZipFilePathFromRequest(request);
+    const zipFilePath = await getZipFilePathFromRequest(request);
 
-    const publicDir = path.join(process.cwd(), 'public');
-    const uploadsDir = path.join(publicDir, NOTION_PUBLIC_PATH);
-    const newDirPath = path.join(uploadsDir, newFilename);
+    console.log('zipFilePath', zipFilePath);
 
-    await fs.mkdir(uploadsDir, { recursive: true });
-    await fs.mkdir(newDirPath, { recursive: true });
+    const newDirPath = path.join(process.cwd(), 'public', 'storage', 'notion');
 
-    return await extractZipFile(filepath, newDirPath);
+    console.log('newDirPath', newDirPath);
+
+    return await extractZipFile(zipFilePath, newDirPath);
 };
 
 const removeDirectory = async (dirPath: string) => {
@@ -119,9 +121,7 @@ const getZipFilePathFromRequest = async (request: NextApiRequest) => {
         });
     });
 
-    const { filepath, newFilename } = files.file;
-
-    return { filepath, newFilename };
+    return files.file.filepath;
 };
 
 const extractZipFile = async(filePath: string, destinationDir: string) => {
