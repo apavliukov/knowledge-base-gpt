@@ -125,7 +125,7 @@ export default function Home() {
                                 </div>
                             </div>
                         )
-                        : answer ? (
+                        : answer && (
                             <div className="mt-6">
                                 <div className="font-bold text-2xl mb-2">Answer</div>
                                 <Answer text={answer}/>
@@ -157,8 +157,6 @@ export default function Home() {
                                     ))}
                                 </div>
                             </div>
-                        ) : (
-                            <div className="mt-6 text-center text-lg">{`AI-powered search.`}</div>
                         )
                     }
                 </div>
