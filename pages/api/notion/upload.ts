@@ -30,13 +30,13 @@ export default async function handler(
 
         console.log('documentsRelativePath', documentsRelativePath);
 
-        const documentsFullPath: string = path.join(process.cwd(), documentsRelativePath);
+        // const documentsFullPath: string = path.join(process.cwd(), documentsRelativePath);
+        //
+        // console.log('documentsFullPath', documentsFullPath);
 
-        console.log('documentsFullPath', documentsFullPath);
+        await uploadDocumentsToSupabase(documentsRelativePath);
 
-        await uploadDocumentsToSupabase(documentsFullPath);
-
-        await removeDirectory(documentsFullPath);
+        await removeDirectory(documentsRelativePath);
 
         response.status(200).json('Your archive was successfully uploaded');
     } catch (exception) {
