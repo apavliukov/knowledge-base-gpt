@@ -26,17 +26,9 @@ export default async function handler(
     }
 
     try {
-        const documentsRelativePath = await getExtractedDirectoryPath(request);
+        const documentsPath = await getExtractedDirectoryPath(request);
 
-        console.log('documentsRelativePath', documentsRelativePath);
-
-        // const documentsFullPath: string = path.join(process.cwd(), documentsRelativePath);
-        //
-        // console.log('documentsFullPath', documentsFullPath);
-
-        await uploadDocumentsToSupabase(documentsRelativePath);
-
-        // await removeDirectory(documentsRelativePath);
+        await uploadDocumentsToSupabase(documentsPath);
 
         response.status(200).json('Your archive was successfully uploaded');
     } catch (exception) {
@@ -72,37 +64,9 @@ const uploadDocumentsToSupabase = async (documentsPath: string) => {
 
 const getExtractedDirectoryPath = async (request: NextApiRequest) => {
     const zipFilePath = await getZipFilePathFromRequest(request);
-
-    console.log('zipFilePath', zipFilePath);
-
     const newDirPath = path.join(os.tmpdir());
 
-    console.log('newDirPath', newDirPath);
-
     return await extractZipFile(zipFilePath, newDirPath);
-};
-
-const removeDirectory = async (dirPath: string) => {
-    // Get the list of files and directories in the directory
-    const files = await fs.readdir(dirPath);
-
-    // Loop through the files and directories
-    for (const file of files) {
-        const filePath = path.join(dirPath, file);
-
-        // Check if the file is a directory
-        const stats = await fs.lstat(filePath);
-        if (stats.isDirectory()) {
-            // Recursively remove the directory
-            await removeDirectory(filePath);
-        } else {
-            // Remove the file
-            await fs.unlink(filePath);
-        }
-    }
-
-    // Remove the directory itself
-    await fs.rmdir(dirPath);
 };
 
 const getZipFilePathFromRequest = async (request: NextApiRequest) => {
