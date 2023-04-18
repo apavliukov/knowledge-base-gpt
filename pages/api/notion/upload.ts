@@ -75,7 +75,7 @@ const getExtractedDirectoryPath = async (request: NextApiRequest) => {
 
     console.log('zipFilePath', zipFilePath);
 
-    const newDirPath = path.join(process.cwd(), 'public', 'storage', 'notion');
+    const newDirPath = path.join(os.tmpdir());
 
     console.log('newDirPath', newDirPath);
 
