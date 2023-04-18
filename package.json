@@ -8,32 +8,43 @@
     "start": "next start",
     "lint": "next lint",
     "scrape": "tsx scripts/scrape.ts",
-    "embed": "tsx scripts/embed.ts"
+    "embed": "tsx scripts/embed.ts",
+    "notion": "tsx scripts/notion-supabase.ts",
+    "notion-hybrid": "tsx scripts/notion-supabase-hybrid.ts",
+    "notion-total": "tsx scripts/notion-supabase-total.ts"
   },
   "dependencies": {
-    "@tabler/icons-react": "^2.12.0",
-    "@types/node": "18.15.7",
-    "@types/react": "18.0.28",
+    "@tabler/icons-react": "^2.16.0",
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.37",
     "@types/react-dom": "18.0.11",
+    "axios": "^0.26.1",
     "endent": "^2.1.0",
-    "eslint": "8.36.0",
-    "eslint-config-next": "13.2.4",
+    "eslint": "8.38.0",
+    "eslint-config-next": "13.3.0",
     "eventsource-parser": "^1.0.0",
+    "formidable": "^2.1.1",
+    "jszip": "^3.10.1",
+    "langchain": "^0.0.57",
     "moment": "^2.29.4",
-    "next": "13.2.4",
+    "next": "13.3.0",
+    "node-polyfill-webpack-plugin": "^2.0.1",
+    "path-browserify": "^1.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "5.0.2"
+    "typescript": "5.0.4"
   },
   "devDependencies": {
-    "@supabase/supabase-js": "^2.12.1",
+    "@supabase/supabase-js": "^2.20.0",
+    "@types/formidable": "^2.0.5",
+    "@types/path-browserify": "^1.0.0",
     "autoprefixer": "^10.4.14",
-    "axios": "^1.3.4",
     "cheerio": "^1.0.0-rc.12",
     "gpt-3-encoder": "^1.1.4",
     "openai": "^3.2.1",
-    "postcss": "^8.4.21",
-    "tailwindcss": "^3.2.7",
-    "tsx": "^3.12.6"
+    "postcss": "^8.4.22",
+    "tailwindcss": "^3.3.1",
+    "tsx": "^3.12.6",
+    "webpack-node-externals": "^3.0.0"
   }
 }
