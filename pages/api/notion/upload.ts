@@ -36,7 +36,7 @@ export default async function handler(
 
         await uploadDocumentsToSupabase(documentsRelativePath);
 
-        await removeDirectory(documentsRelativePath);
+        // await removeDirectory(documentsRelativePath);
 
         response.status(200).json('Your archive was successfully uploaded');
     } catch (exception) {
