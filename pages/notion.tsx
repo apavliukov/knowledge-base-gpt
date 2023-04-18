@@ -5,6 +5,7 @@ import {Document} from "langchain/docstore";
 import {ChainValues} from "langchain/schema";
 import UploadZip from "@/components/Forms/UploadZip";
 import {IconExternalLink} from "@tabler/icons-react";
+import {getMarkdownTitle} from "@/utils/markdown";
 
 export default function Home() {
     const [query, setQuery] = useState('What fields are hard-coded?');
@@ -100,23 +101,30 @@ export default function Home() {
                                 <div className="mt-6 mb-16">
                                     <div className="font-bold text-2xl">Documents</div>
 
-                                    {documents.map((document, index) => (
-                                        <div key={index}>
-                                            <div className="mt-4 border border-zinc-600 rounded-lg p-4">
-                                                <div className="flex justify-between">
-                                                    <a
-                                                        className="hover:opacity-50 ml-auto"
-                                                        href={document.metadata.notionUrl}
-                                                        target="_blank"
-                                                        rel="noreferrer"
-                                                    >
-                                                        <IconExternalLink/>
-                                                    </a>
+                                    {documents.map((document, index) => {
+                                        const title = getMarkdownTitle(document.pageContent);
+                                        const notionUrl = document.metadata.notionUrl;
+
+                                        return (
+                                            <div key={index}>
+                                                <div className="mt-4 border border-zinc-600 rounded-lg p-4">
+                                                    <div className="flex justify-between">
+                                                        <div>
+                                                            <div className="font-bold text-xl">{title}</div>
+                                                        </div>
+                                                        <a
+                                                            className="hover:opacity-50 ml-auto"
+                                                            href={notionUrl}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                        >
+                                                            <IconExternalLink/>
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                                <div className="mt-2">{document.pageContent}</div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
                             </div>
                         )
