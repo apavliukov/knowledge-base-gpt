@@ -8,7 +8,7 @@ import {IconExternalLink} from "@tabler/icons-react";
 import {getMarkdownTitle} from "@/utils/markdown";
 
 export default function Home() {
-    const [query, setQuery] = useState('What fields are hard-coded?');
+    const [query, setQuery] = useState('');
     const [answer, setAnswer] = useState('');
     const [documents, setDocuments] = useState<Document[]>([]);
     const [loading, setLoading] = useState(false);
